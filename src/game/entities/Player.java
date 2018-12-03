@@ -1,5 +1,6 @@
 package game.entities;
 
+import game.logic.Client;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,44 +17,24 @@ import java.util.List;
 
 public class Player {
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    private int dir;
-    private String name;
-    private final int radius = 50;
     private int x;
     private int y;
-    private Socket socket;
     private Circle circle;
-    private List<Player> players;
     private Group group;
 
-    public Player(Socket socket, String name, int x, int y) {
+    public Player(String name, int x, int y) throws IOException {
         this.x = x;
         this.y = y;
-        players = new ArrayList<>();
-        this.name = name;
-        if (socket != null) {
-            try {
-                this.socket = socket;
-                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-                pw.println("new:" + name + ":" + x + ":" + y + ":" + dir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
         Circle circle = new Circle();
         this.circle = circle;
+        int radius = 50;
         circle.setRadius(radius);
         circle.setLayoutX(getX());
         circle.setLayoutY(getY());
         group = new Group(circle);
+
+        Client client = new Client("localhost", 1337);
     }
 
     public Group getGroup() {
@@ -69,18 +50,24 @@ public class Player {
         }
 
         if (code == KeyCode.RIGHT) {
-            setY(getY() + 10);
+            circle.setRadius(circle.getRadius() + 10);
         }
         if (code == KeyCode.LEFT) {
-            setY(getY() - 10);
+            circle.setRadius(circle.getRadius() - 10);
+
         }
-
-
-
     }
 
     private void setY(int i) {
         y = i;
         circle.setLayoutY(y);
+    }
+
+    private int getX() {
+        return x;
+    }
+
+    private int getY() {
+        return y;
     }
 }
