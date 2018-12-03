@@ -1,41 +1,49 @@
 package game.entities;
 
 import game.logic.Client;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
 public class Player {
+    private final String CREATE = "create";
 
     private int x;
     private int y;
     private Circle circle;
-    private Group group;
+
+    private Random random = new Random();
+    private Group group = new Group();
 
     public Player(String name, int x, int y) throws IOException {
         this.x = x;
         this.y = y;
 
+        this.circle = addCircle();
+
+        Client client = new Client("localhost", 1337, this);
+        int a = random.nextInt();
+        client.sendMessage(CREATE + ":" + a);
+    }
+
+    private Circle addCircle() {
         Circle circle = new Circle();
-        this.circle = circle;
         int radius = 50;
         circle.setRadius(radius);
         circle.setLayoutX(getX());
         circle.setLayoutY(getY());
-        group = new Group(circle);
 
-        Client client = new Client("localhost", 1337, this);
-        client.sendMessage("client added");
+        Platform.runLater(() -> {
+                    group.getChildren().add(circle);
+                }
+        );
+        return circle;
     }
 
     public Group getGroup() {
@@ -72,7 +80,13 @@ public class Player {
         return y;
     }
 
-    public void showMessage(String message) {
+    public void receiveMessage(String message) {
         System.out.println(message);
+        String[] encode = message.split(":");
+        switch (encode[0]) {
+            case CREATE:
+                addCircle();
+                break;
+        }
     }
 }

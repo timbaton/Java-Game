@@ -22,7 +22,6 @@ public class Main extends Application {
             p.action(value.getCode());
         });
 
-
         primaryStage.setScene(new Scene(p.getGroup(), SIZE, SIZE));
         primaryStage.setTitle("Hello World");
         primaryStage.show();

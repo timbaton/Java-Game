@@ -32,7 +32,7 @@ public class Client {
             while (true) {
                 String message = reader.readLine();
                 if (message != null) {
-                    player.showMessage(message);
+                    player.receiveMessage(message);
                 }
             }
 
