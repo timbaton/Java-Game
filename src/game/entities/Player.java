@@ -34,7 +34,8 @@ public class Player {
         circle.setLayoutY(getY());
         group = new Group(circle);
 
-        Client client = new Client("localhost", 1337);
+        Client client = new Client("localhost", 1337, this);
+        client.sendMessage("client added");
     }
 
     public Group getGroup() {
@@ -69,5 +70,9 @@ public class Player {
 
     private int getY() {
         return y;
+    }
+
+    public void showMessage(String message) {
+        System.out.println(message);
     }
 }

@@ -1,6 +1,8 @@
 package game.logic;
 
 
+import game.entities.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,10 +13,12 @@ public class Client {
 
     private final BufferedReader readConsole = new BufferedReader(new InputStreamReader(System.in));
     private Socket socket;
+    private Player player;
 
 
-    public Client(String host, int port) throws IOException {
+    public Client(String host, int port, Player player) throws IOException {
         socket = new Socket(host, port);
+        this.player = player;
         this.start();
     }
 
@@ -25,12 +29,11 @@ public class Client {
     private void receiveOutputStream() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
             while (true) {
                 String message = reader.readLine();
-                if (message != null)
-                    System.out.println(message);
-//                chatController.receiveMessage(message);
+                if (message != null) {
+                    player.showMessage(message);
+                }
             }
 
         } catch (IOException e) {
