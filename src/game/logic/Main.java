@@ -11,19 +11,26 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private static final int SCREEN_WIDTH = 800;
+    private static final int SCREEN_HEIGHT = 400;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+//        Parent root = FXMLLoader.load(getClass().getResource("../../sample.fxml"));
+//        primaryStage.setTitle("Hello World");
+//        primaryStage.setScene(new Scene(root, 300, 275));
+//        primaryStage.show();
 
-        startGame();
+        startGame(primaryStage);
     }
 
-    private void startGame() {
-        Player p = new Player(null, "Tim");
+    private void startGame(Stage primaryStage) {
+        Player p = new Player(null, "Tim", SCREEN_WIDTH / 2, SCREEN_WIDTH / 2);
+
+        p.getGroup().setOnKeyPressed(value -> {
+            p.action(value.getCode());
+        });
+
 
 //        p.getGroup().setOnKeyPressed(value -> {
 //            p.move(value.getCode());
@@ -47,6 +54,10 @@ public class Main extends Application {
 //
 //        });
 
+        primaryStage.setScene(new Scene(p.getGroup(), SCREEN_WIDTH, SCREEN_WIDTH));
+        primaryStage.setTitle("Hello World");
+        primaryStage.show();
+        primaryStage.getScene().getRoot().requestFocus();
     }
 
 
