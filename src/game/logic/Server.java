@@ -54,23 +54,37 @@ public class Server {
         }
         System.out.println();
 
-        for (Connection connection : clients) {
-            if (connection != sender) {
-                try {
-                    PrintWriter writer = new PrintWriter(connection.getSocket().getOutputStream(), true);
-                    writer.println(string);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                for (WrittenPlayer player : players) {
-                    new PrintWriter(sender.getSocket().getOutputStream(), true).println(message[0] + ":" + player);
+        if (message[0].equals(Player.CREATE)) {
+
+            for (Connection connection : clients) {
+                if (connection != sender) {
+                    try {
+                        PrintWriter writer = new PrintWriter(connection.getSocket().getOutputStream(), true);
+                        writer.println(string);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    for (WrittenPlayer player : players) {
+                        new PrintWriter(sender.getSocket().getOutputStream(), true).println(message[0] + ":" + player);
+                    }
                 }
             }
-        }
-        if (message[0].equals(Player.CREATE)) {
 //            System.out.println("added new player " + message[2]);
             players.add(new WrittenPlayer(message[1], Integer.valueOf(message[2]), Integer.valueOf(message[3])));
+        }
+
+        if (message[0].equals(Player.MOVE)) {
+            for (Connection connection : clients) {
+                if (connection != sender) {
+                    try {
+                        PrintWriter writer = new PrintWriter(connection.getSocket().getOutputStream(), true);
+                        writer.println(string);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
     }
 
