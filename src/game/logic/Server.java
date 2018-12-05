@@ -49,10 +49,7 @@ public class Server {
 
     void sendToAllPlayers(String string, Connection sender) throws IOException {
         String[] message = string.split(":");
-        if (message[0].equals(Player.CREATE)) {
-            System.out.println("added new player " + message[2]);
-            players.add(new WrittenPlayer(message[1], Integer.valueOf(message[2]), Integer.valueOf(message[3])));
-        }
+
         for (Connection connection : clients) {
             if (connection != sender) {
                 try {
@@ -63,9 +60,13 @@ public class Server {
                 }
             } else {
                 for (WrittenPlayer player : players) {
-                    new PrintWriter(sender.getSocket().getOutputStream(), true).println(Player.CREATE + ":" + player);
+                    new PrintWriter(sender.getSocket().getOutputStream(), true).println(message[0] + ":" + player);
                 }
             }
+        }
+        if (message[0].equals(Player.CREATE)) {
+            System.out.println("added new player " + message[2]);
+            players.add(new WrittenPlayer(message[1], Integer.valueOf(message[2]), Integer.valueOf(message[3])));
         }
     }
 

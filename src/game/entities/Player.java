@@ -25,16 +25,18 @@ public class Player {
         this.name = name;
         this.x = x;
         this.y = y;
+        circle = addCircle(name, x, y);
+        circle.setOnKeyPressed(value -> action(value.getCode()));
         Client client = new Client("localhost", 1337, this);
         client.sendMessage(CREATE + ":" + this);
     }
 
-    private Circle addCircle() {
+    private Circle addCircle(String name, int x, int y) {
         Circle circle = new Circle();
         int radius = 50;
         circle.setRadius(radius);
-        circle.setLayoutX(getX());
-        circle.setLayoutY(getY());
+        circle.setLayoutX(x);
+        circle.setLayoutY(y);
 
         Platform.runLater(() -> {
                     group.getChildren().add(circle);
@@ -79,12 +81,12 @@ public class Player {
 
     public void receiveMessage(String message) {
         System.out.println(message);
-//        String[] encode = message.split(":");
-//        switch (encode[0]) {
-//            case CREATE:
-//                addCircle();
-//                break;
-//        }
+        String[] encode = message.split(":");
+        switch (encode[0]) {
+            case CREATE:
+                addCircle(encode[1], Integer.valueOf(encode[2]), Integer.valueOf(encode[3]));
+                break;
+        }
     }
 
     @Override
