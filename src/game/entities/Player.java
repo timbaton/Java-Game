@@ -13,11 +13,14 @@ import java.util.Random;
 
 public class Player {
     public final static String CREATE = "create";
+    public final static String MOVE = "move";
+    public final static int STEP = 5;
 
     private int x;
     private int y;
     private String name;
     private Circle circle;
+    private Client client;
 
     private Group group = new Group();
 
@@ -27,7 +30,7 @@ public class Player {
         this.y = y;
         circle = addCircle(name, x, y);
         circle.setOnKeyPressed(value -> action(value.getCode()));
-        Client client = new Client("localhost", 1337, this);
+        client = new Client("localhost", 1339, this);
         client.sendMessage(CREATE + ":" + this);
     }
 
@@ -51,17 +54,18 @@ public class Player {
 
     public void action(KeyCode code) {
         if (code == KeyCode.DOWN) {
-            setY(getY() + 10);
+            client.sendMessage(MOVE + ":y:" + getY());
+            setY(getY() + STEP);
         }
         if (code == KeyCode.UP) {
-            setY(getY() - 10);
+            setY(getY() - STEP);
         }
 
         if (code == KeyCode.RIGHT) {
-            circle.setRadius(circle.getRadius() + 10);
+            circle.setRadius(circle.getRadius() + STEP);
         }
         if (code == KeyCode.LEFT) {
-            circle.setRadius(circle.getRadius() - 10);
+            circle.setRadius(circle.getRadius() - STEP);
 
         }
     }
