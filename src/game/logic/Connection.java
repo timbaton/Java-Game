@@ -37,7 +37,7 @@ class Connection {
         return socket;
     }
 
-    private void notifyServer(String string) {
+    private void notifyServer(String string) throws IOException {
         server.sendToAllPlayers(string, this);
     }
 }

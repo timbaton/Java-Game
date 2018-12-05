@@ -1,5 +1,8 @@
 package game.logic;
 
+import game.entities.Player;
+import game.entities.WrittenPlayer;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -8,6 +11,7 @@ import java.util.List;
 
 public class Server {
     private final List<Connection> clients;
+    private final List<WrittenPlayer> players;
 
     private ServerSocket serverSocket;
     public static Server server;
@@ -16,6 +20,7 @@ public class Server {
         this.serverSocket = new ServerSocket(1337);
         int maxConnections = 20;
         clients = new ArrayList<>(maxConnections);
+        players = new ArrayList<>(maxConnections);
     }
 
     public void start() {
@@ -42,15 +47,23 @@ public class Server {
         }
     }
 
-    void sendToAllPlayers(String string, Connection sender) {
+    void sendToAllPlayers(String string, Connection sender) throws IOException {
+        String[] message = string.split(":");
+        if (message[0].equals(Player.CREATE)) {
+            System.out.println("added new player " + message[2]);
+            players.add(new WrittenPlayer(message[1], Integer.valueOf(message[2]), Integer.valueOf(message[3])));
+        }
         for (Connection connection : clients) {
             if (connection != sender) {
                 try {
-                    PrintWriter writer = new PrintWriter(connection.getSocket().getOutputStream());
+                    PrintWriter writer = new PrintWriter(connection.getSocket().getOutputStream(), true);
                     writer.println(string);
-                    writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            } else {
+                for (WrittenPlayer player : players) {
+                    new PrintWriter(sender.getSocket().getOutputStream(), true).println(Player.CREATE + ":" + player);
                 }
             }
         }

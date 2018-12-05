@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Main extends Application {
     private static final int SIZE = 800;
@@ -16,7 +17,12 @@ public class Main extends Application {
     }
 
     private void startGame(Stage primaryStage) throws IOException {
-        Player p = new Player("Tim", SIZE / 2, SIZE / 2);
+
+        Random random = new Random();
+        int x = random.nextInt(450 + 1 + 50) - 50;
+        int y = random.nextInt(450 + 1 + 50) - 50;
+
+        Player p = new Player("Tim", x, y);
 
         p.getGroup().setOnKeyPressed(value -> {
             p.action(value.getCode());

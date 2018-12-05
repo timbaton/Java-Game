@@ -12,24 +12,21 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Player {
-    private final String CREATE = "create";
+    public final static String CREATE = "create";
 
     private int x;
     private int y;
+    private String name;
     private Circle circle;
 
-    private Random random = new Random();
     private Group group = new Group();
 
     public Player(String name, int x, int y) throws IOException {
+        this.name = name;
         this.x = x;
         this.y = y;
-
-        this.circle = addCircle();
-
         Client client = new Client("localhost", 1337, this);
-        int a = random.nextInt();
-        client.sendMessage(CREATE + ":" + a);
+        client.sendMessage(CREATE + ":" + this);
     }
 
     private Circle addCircle() {
@@ -82,11 +79,16 @@ public class Player {
 
     public void receiveMessage(String message) {
         System.out.println(message);
-        String[] encode = message.split(":");
-        switch (encode[0]) {
-            case CREATE:
-                addCircle();
-                break;
-        }
+//        String[] encode = message.split(":");
+//        switch (encode[0]) {
+//            case CREATE:
+//                addCircle();
+//                break;
+//        }
+    }
+
+    @Override
+    public String toString() {
+        return this.name + ":" + this.x + ":" + this.y;
     }
 }
