@@ -42,7 +42,6 @@ public class Client {
     }
 
     public void sendMessage(String newMessage) {
-        System.out.println("client:" + newMessage);
         try {
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             writer.println(newMessage);

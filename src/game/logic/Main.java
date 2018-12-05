@@ -21,8 +21,9 @@ public class Main extends Application {
         Random random = new Random();
         int x = random.nextInt(450 + 1 + 50) - 50;
         int y = random.nextInt(450 + 1 + 50) - 50;
+        int name = random.nextInt(450 + 1 + 50) - 50;
 
-        Player p = new Player("Tim", x, y);
+        Player p = new Player(name, x, y);
 
         p.getGroup().setOnKeyPressed(value -> {
             p.action(value.getCode());

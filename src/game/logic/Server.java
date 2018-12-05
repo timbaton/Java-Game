@@ -32,7 +32,7 @@ public class Server {
             Connection connection = createConnection();
             if (connection != null) {
                 clients.add(connection);
-                System.out.println("connection added");
+//                System.out.println("connection added");
                 connection.start();
             }
         }
@@ -49,6 +49,10 @@ public class Server {
 
     void sendToAllPlayers(String string, Connection sender) throws IOException {
         String[] message = string.split(":");
+        for (String text : message) {
+            System.out.print(text + " ");
+        }
+        System.out.println();
 
         for (Connection connection : clients) {
             if (connection != sender) {
@@ -65,7 +69,7 @@ public class Server {
             }
         }
         if (message[0].equals(Player.CREATE)) {
-            System.out.println("added new player " + message[2]);
+//            System.out.println("added new player " + message[2]);
             players.add(new WrittenPlayer(message[1], Integer.valueOf(message[2]), Integer.valueOf(message[3])));
         }
     }

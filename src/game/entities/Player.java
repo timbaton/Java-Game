@@ -18,13 +18,13 @@ public class Player {
 
     private int x;
     private int y;
-    private String name;
+    private int name;
     private Circle circle;
     private Client client;
 
     private Group group = new Group();
 
-    public Player(String name, int x, int y) throws IOException {
+    public Player(int name, int x, int y) throws IOException {
         this.name = name;
         this.x = x;
         this.y = y;
@@ -34,7 +34,7 @@ public class Player {
         client.sendMessage(CREATE + ":" + this);
     }
 
-    private Circle addCircle(String name, int x, int y) {
+    private Circle addCircle(int name, int x, int y) {
         Circle circle = new Circle();
         int radius = 50;
         circle.setRadius(radius);
@@ -54,7 +54,8 @@ public class Player {
 
     public void action(KeyCode code) {
         if (code == KeyCode.DOWN) {
-            client.sendMessage(MOVE + ":y:" + getY());
+            client.sendMessage(MOVE + ":" + name + ":y:" + getY() + ":" + (getY() + STEP) );
+//            System.out.println(MOVE + ":y:" + getY() + ":" + (getY() + STEP));
             setY(getY() + STEP);
         }
         if (code == KeyCode.UP) {
@@ -84,11 +85,11 @@ public class Player {
     }
 
     public void receiveMessage(String message) {
-        System.out.println(message);
+//        System.out.println(message);
         String[] encode = message.split(":");
         switch (encode[0]) {
             case CREATE:
-                addCircle(encode[1], Integer.valueOf(encode[2]), Integer.valueOf(encode[3]));
+                addCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]));
                 break;
         }
     }
