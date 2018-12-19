@@ -25,6 +25,7 @@ class Connection {
 
             while (true) {
                 String string = reader.readLine();
+                System.out.println("Player sended message: " + string);
                 notifyServer(string);
             }
 

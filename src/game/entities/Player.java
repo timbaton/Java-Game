@@ -76,6 +76,7 @@ public class Player {
 
         client.sendMessage(KILL + ":" + (int) looser.getLayoutX() + ":" + (int) looser.getLayoutY() + ":"
                 + (int) winner.getLayoutX() + ":" + (int) winner.getLayoutY() + ":" + (int) looser.getRadius());
+
     }
 
     private boolean checkIntersect(Circle oneOfAllPlayers, Circle circle) {
@@ -84,7 +85,8 @@ public class Player {
         double squareOne = Math.pow(allX - curX, 2);
         double squareTwo = Math.pow(oneOfAllPlayers.getLayoutY() - circle.getLayoutY(), 2);
         double sqrt = Math.sqrt(squareOne + squareTwo);
-        return sqrt < (circle.getRadius() + oneOfAllPlayers.getRadius());
+        double distance = circle.getRadius() + oneOfAllPlayers.getRadius();
+        return sqrt < distance;
     }
 
     public Group getGroup() {
@@ -94,9 +96,9 @@ public class Player {
     public void action(KeyCode code) {
         if (code == KeyCode.DOWN) {
             client.sendMessage(MOVE + ":y:" + getX() + ":" + getY() + ":" + (getY() + STEP));
-//            System.out.println(MOVE + ":y:" + getY() + ":" + (getY() + STEP));
             setY(getY() + STEP);
         }
+
         if (code == KeyCode.UP) {
             client.sendMessage(MOVE + ":y:" + getX() + ":" + getY() + ":" + (getY() - STEP));
             setY(getY() - STEP);
@@ -123,15 +125,14 @@ public class Player {
     }
 
     private int getX() {
-        return x;
+        return (int)circle.getLayoutX();
     }
 
     private int getY() {
-        return y;
+        return (int)circle.getLayoutY();
     }
 
     public void receiveMessage(String message) {
-        System.out.println("received message " + message);
         String[] encode = message.split(":");
         switch (encode[0]) {
             case CREATE:
@@ -149,6 +150,8 @@ public class Player {
         Circle killed = findCircle(killedX, killedY);
         Circle winner = findCircle(winnerX, winnerY);
         if (killed != null) {
+            killed.setLayoutX(-1999.0);
+            killed.setLayoutY(-1999.0);
             circles.remove(killed);
             Platform.runLater(() -> {
                         group.getChildren().remove(killed);

@@ -49,6 +49,7 @@ public class Server {
 
     void sendToAllPlayers(String string, Connection sender) throws IOException {
         String[] message = string.split(":");
+        System.out.print("server got message: ");
         for (String text : message) {
             System.out.print(text + " ");
         }
@@ -72,19 +73,54 @@ public class Server {
             }
 //            System.out.println("added new player " + message[2]);
             players.add(new WrittenPlayer(message[1], Integer.valueOf(message[2]), Integer.valueOf(message[3])));
-        } else {
-            for (Connection connection : clients) {
-                if (connection != sender) {
-                    try {
-                        PrintWriter writer = new PrintWriter(connection.getSocket().getOutputStream(), true);
-                        writer.println(string);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        }
+        else if (message[0].equals(Player.MOVE)) {
+            WrittenPlayer player = findCircle(Integer.valueOf(message[2]), Integer.valueOf(message[3]));
+            assert player != null;
+            Integer newValue = Integer.valueOf(message[4]);
+            if (message[1].equals("x")) {
+                player.setX(newValue);
+            } else {
+                player.setY(newValue);
+            }
+            sendMessage(string, sender);
+        } else if  (message[0].equals(Player.KILL)){
+            delete(Integer.valueOf(message[1]), Integer.valueOf(message[2]));
+            sendMessage(string, sender);
+        }
+    }
+
+    private void sendMessage(String string, Connection sender) {
+        System.out.println("Server sended message: " + string);
+        for (Connection connection : clients) {
+            if (connection != sender) {
+                try {
+                    PrintWriter writer = new PrintWriter(connection.getSocket().getOutputStream(), true);
+                    writer.println(string);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
     }
+
+    private WrittenPlayer findCircle(Integer x, Integer y) {
+        for (WrittenPlayer player : players) {
+            if (player.getY() == y && player.getX() == x) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    private void delete(Integer x, Integer y) {
+        for (WrittenPlayer player : players) {
+            if (player.getY() == y && player.getX() == x) {
+                players.remove(player);
+            }
+        }
+    }
+
 
     public static void main(String[] args) throws IOException {
         Server server = new Server();

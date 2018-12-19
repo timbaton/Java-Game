@@ -32,6 +32,7 @@ public class Client {
             while (true) {
                 String message = reader.readLine();
                 if (message != null) {
+                    System.out.println("Player got message" + message);
                     player.receiveMessage(message);
                 }
             }
@@ -42,6 +43,7 @@ public class Client {
     }
 
     public void sendMessage(String newMessage) {
+        System.out.println("Player sended message" + newMessage);
         try {
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             writer.println(newMessage);
