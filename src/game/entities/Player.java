@@ -46,6 +46,7 @@ public class Player {
         circle.setRadius(radius);
         circle.setLayoutX(x);
         circle.setLayoutY(y);
+
         circle.boundsInParentProperty().addListener((a, b, d) -> {
             for (Circle oneOfAllPlayers : circles) {
                 if (circle != oneOfAllPlayers && checkIntersect(circle, oneOfAllPlayers)) {
@@ -53,9 +54,7 @@ public class Player {
                 }
             }
         });
-
         circles.add(circle);
-
 
         Platform.runLater(() -> {
                     group.getChildren().add(circle);
@@ -72,10 +71,11 @@ public class Player {
             looser = oneOfAllPlayers;
         }
 
-        System.out.println(looser.getLayoutX());
-        System.out.println((int)looser.getLayoutX());
-        client.sendMessage(KILL + ":" + (int)looser.getLayoutX() + ":" + (int)looser.getLayoutY() + ":"
-                + (int)winner.getLayoutX() + ":" + (int)winner.getLayoutY() + ":" + (int)looser.getRadius());
+        killCircle((int) looser.getLayoutX(), (int) looser.getLayoutY(),
+                (int) winner.getLayoutX(), (int) winner.getLayoutY(), (int) looser.getRadius());
+
+        client.sendMessage(KILL + ":" + (int) looser.getLayoutX() + ":" + (int) looser.getLayoutY() + ":"
+                + (int) winner.getLayoutX() + ":" + (int) winner.getLayoutY() + ":" + (int) looser.getRadius());
     }
 
     private boolean checkIntersect(Circle oneOfAllPlayers, Circle circle) {
@@ -141,7 +141,7 @@ public class Player {
                 moveCircle(encode[1], Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]));
                 break;
             case KILL:
-                killCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]) , Integer.valueOf(encode[4]), Integer.valueOf(encode[5]));
+                killCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]), Integer.valueOf(encode[5]));
         }
     }
 
@@ -149,6 +149,7 @@ public class Player {
         Circle killed = findCircle(killedX, killedY);
         Circle winner = findCircle(winnerX, winnerY);
         if (killed != null) {
+            circles.remove(killed);
             Platform.runLater(() -> {
                         group.getChildren().remove(killed);
                     }
@@ -156,8 +157,7 @@ public class Player {
         }
 
         assert winner != null;
-//        winner.setRadius(winner.getRadius() + radius);
-
+        winner.setRadius(winner.getRadius() + 1);
     }
 
     private void moveCircle(String where, Integer x, Integer y, Integer newValue) {
