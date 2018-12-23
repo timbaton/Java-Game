@@ -3,7 +3,17 @@ package game.entities;
 public class WrittenPlayer {
     private int x;
     private int y;
+    private int rad;
     private String name;
+
+    public int getRadius() {
+        return rad;
+    }
+
+    public void setRadius(int radius) {
+        this.rad = radius;
+    }
+
 
     public int getX() {
         return x;
@@ -30,14 +40,15 @@ public class WrittenPlayer {
     }
 
 
-    public WrittenPlayer(String name, int x, int y) {
+    public WrittenPlayer(String name, int x, int y, int rad) {
         this.name = name;
         this.x = x;
         this.y = y;
+        this.rad = rad;
     }
 
     @Override
     public String toString() {
-        return this.name + ":" + this.x + ":" + this.y;
+        return this.name + ":" + this.x + ":" + this.y + ":" + this.rad;
     }
 }

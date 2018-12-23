@@ -18,9 +18,12 @@ public class Player {
     public final static String MOVE = "move";
     public final static String KILL = "kill";
     public final static int STEP = 5;
+    public final static int RADIUS_INCOME_KILLING = 5;
+    public final static int RADIUS_INCOME_EASY = 1;
 
     private int x;
     private int y;
+    private int radius;
     private int name;
     private Circle circle;
     private List<Circle> circles;
@@ -32,26 +35,24 @@ public class Player {
         this.name = name;
         this.x = x;
         this.y = y;
+        this.radius = 50;
         circles = new ArrayList<>();
-        circle = addCircle(name, x, y);
+        circle = addCircle(name, x, y, radius);
 
         circle.setOnKeyPressed(value -> action(value.getCode()));
-        client = new Client("localhost", 1337, this);
+        client = new Client("localhost", 228, this);
         client.sendMessage(CREATE + ":" + this);
     }
 
-    private Circle addCircle(int name, int x, int y) {
+    private Circle addCircle(int name, int x, int y, int radius) {
         Circle circle = new Circle();
-        int radius = 50;
         circle.setRadius(radius);
         circle.setLayoutX(x);
         circle.setLayoutY(y);
 
         circle.boundsInParentProperty().addListener((a, b, d) -> {
-            for (Circle oneOfAllPlayers : circles) {
-                if (circle != oneOfAllPlayers && checkIntersect(circle, oneOfAllPlayers)) {
-                    handleKilling(circle, oneOfAllPlayers);
-                }
+            if (circle != this.circle && checkIntersect(circle, this.circle)) {
+                handleKilling(circle, this.circle);
             }
         });
         circles.add(circle);
@@ -71,11 +72,12 @@ public class Player {
             looser = oneOfAllPlayers;
         }
 
+        client.sendMessage(KILL + ":" + (int) looser.getLayoutX() + ":" + (int) looser.getLayoutY() + ":"
+                + (int) winner.getLayoutX() + ":" + (int) winner.getLayoutY() + ":" + (int) winner.getRadius());
+
         killCircle((int) looser.getLayoutX(), (int) looser.getLayoutY(),
                 (int) winner.getLayoutX(), (int) winner.getLayoutY(), (int) looser.getRadius());
 
-        client.sendMessage(KILL + ":" + (int) looser.getLayoutX() + ":" + (int) looser.getLayoutY() + ":"
-                + (int) winner.getLayoutX() + ":" + (int) winner.getLayoutY() + ":" + (int) looser.getRadius());
 
     }
 
@@ -125,18 +127,18 @@ public class Player {
     }
 
     private int getX() {
-        return (int)circle.getLayoutX();
+        return (int) circle.getLayoutX();
     }
 
     private int getY() {
-        return (int)circle.getLayoutY();
+        return (int) circle.getLayoutY();
     }
 
     public void receiveMessage(String message) {
         String[] encode = message.split(":");
         switch (encode[0]) {
             case CREATE:
-                addCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]));
+                addCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]));
                 break;
             case MOVE:
                 moveCircle(encode[1], Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]));
@@ -160,7 +162,7 @@ public class Player {
         }
 
         assert winner != null;
-        winner.setRadius(winner.getRadius() + 1);
+        winner.setRadius(winner.getRadius() + RADIUS_INCOME_KILLING);
     }
 
     private void moveCircle(String where, Integer x, Integer y, Integer newValue) {
@@ -188,6 +190,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return this.name + ":" + this.x + ":" + this.y;
+        return this.name + ":" + this.x + ":" + this.y + ":" + this.radius;
     }
 }

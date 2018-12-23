@@ -2,6 +2,7 @@ package game.logic;
 
 import game.entities.Player;
 import game.entities.WrittenPlayer;
+import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +18,7 @@ public class Server {
     public static Server server;
 
     public Server() throws IOException {
-        this.serverSocket = new ServerSocket(1337);
+        this.serverSocket = new ServerSocket(228);
         int maxConnections = 20;
         clients = new ArrayList<>(maxConnections);
         players = new ArrayList<>(maxConnections);
@@ -72,9 +73,8 @@ public class Server {
                 }
             }
 //            System.out.println("added new player " + message[2]);
-            players.add(new WrittenPlayer(message[1], Integer.valueOf(message[2]), Integer.valueOf(message[3])));
-        }
-        else if (message[0].equals(Player.MOVE)) {
+            players.add(new WrittenPlayer(message[1], Integer.valueOf(message[2]), Integer.valueOf(message[3]), Integer.valueOf(message[4])));
+        } else if (message[0].equals(Player.MOVE)) {
             WrittenPlayer player = findCircle(Integer.valueOf(message[2]), Integer.valueOf(message[3]));
             assert player != null;
             Integer newValue = Integer.valueOf(message[4]);
@@ -84,10 +84,18 @@ public class Server {
                 player.setY(newValue);
             }
             sendMessage(string, sender);
-        } else if  (message[0].equals(Player.KILL)){
-            delete(Integer.valueOf(message[1]), Integer.valueOf(message[2]));
+
+        } else if (message[0].equals(Player.KILL)) {
+            deleteCircle(Integer.valueOf(message[1]), Integer.valueOf(message[2]));
+            growCircle(Integer.valueOf(message[3]), Integer.valueOf(message[4]), Integer.valueOf(message[5]) + 5);
             sendMessage(string, sender);
         }
+    }
+
+    private void growCircle(Integer x, Integer y, Integer looserRad) {
+        WrittenPlayer player = findCircle(x, y);
+        assert player != null;
+        player.setRadius(player.getRadius() + 5);
     }
 
     private void sendMessage(String string, Connection sender) {
@@ -113,10 +121,10 @@ public class Server {
         return null;
     }
 
-    private void delete(Integer x, Integer y) {
-        for (WrittenPlayer player : players) {
-            if (player.getY() == y && player.getX() == x) {
-                players.remove(player);
+    private void deleteCircle(Integer x, Integer y) {
+        for (int i = 0; i < players.size(); i ++ ) {
+            if (players.get(i).getY() == y && players.get(i).getX() == x) {
+                players.remove(i);
             }
         }
     }
