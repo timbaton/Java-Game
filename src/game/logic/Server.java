@@ -18,7 +18,7 @@ public class Server {
     public static Server server;
 
     public Server() throws IOException {
-        this.serverSocket = new ServerSocket(228);
+        this.serverSocket = new ServerSocket(133);
         int maxConnections = 20;
         clients = new ArrayList<>(maxConnections);
         players = new ArrayList<>(maxConnections);

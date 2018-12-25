@@ -3,22 +3,19 @@ package game.entities;
 import game.logic.Client;
 import javafx.application.Platform;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Player {
     public final static String CREATE = "create";
     public final static String MOVE = "move";
     public final static String KILL = "kill";
-    public final static int STEP = 5;
-    public final static int RADIUS_INCOME_KILLING = 5;
+    private static int speed = 12;
+    public final static int RADIUS_INCOME_KILLING = 3;
     public final static int RADIUS_INCOME_EASY = 1;
 
     private int x;
@@ -40,8 +37,22 @@ public class Player {
         circle = addCircle(name, x, y, radius);
 
         circle.setOnKeyPressed(value -> action(value.getCode()));
-        client = new Client("localhost", 228, this);
+        client = new Client("localhost", 133, this);
         client.sendMessage(CREATE + ":" + this);
+    }
+
+    public void receiveMessage(String message) {
+        String[] encode = message.split(":");
+        switch (encode[0]) {
+            case CREATE:
+                addCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]));
+                break;
+            case MOVE:
+                moveCircle(encode[1], Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]));
+                break;
+            case KILL:
+                killCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]), Integer.valueOf(encode[5]));
+        }
     }
 
     private Circle addCircle(int name, int x, int y, int radius) {
@@ -64,21 +75,21 @@ public class Player {
         return circle;
     }
 
-    private void handleKilling(Circle circle, Circle oneOfAllPlayers) {
-        Circle winner = oneOfAllPlayers;
+    private void handleKilling(Circle circle, Circle currentCircle) {
+        Circle winner = currentCircle;
         Circle looser = circle;
-        if (circle.getRadius() > oneOfAllPlayers.getRadius()) {
+        if (circle.getRadius() > currentCircle.getRadius()) {
             winner = circle;
-            looser = oneOfAllPlayers;
+            looser = currentCircle;
         }
 
+//        if (circle.getRadius() != currentCircle.getRadius()) {
         client.sendMessage(KILL + ":" + (int) looser.getLayoutX() + ":" + (int) looser.getLayoutY() + ":"
                 + (int) winner.getLayoutX() + ":" + (int) winner.getLayoutY() + ":" + (int) winner.getRadius());
 
         killCircle((int) looser.getLayoutX(), (int) looser.getLayoutY(),
                 (int) winner.getLayoutX(), (int) winner.getLayoutY(), (int) looser.getRadius());
-
-
+//        }
     }
 
     private boolean checkIntersect(Circle oneOfAllPlayers, Circle circle) {
@@ -91,60 +102,24 @@ public class Player {
         return sqrt < distance;
     }
 
-    public Group getGroup() {
-        return group;
-    }
-
     public void action(KeyCode code) {
         if (code == KeyCode.DOWN) {
-            client.sendMessage(MOVE + ":y:" + getX() + ":" + getY() + ":" + (getY() + STEP));
-            setY(getY() + STEP);
+            client.sendMessage(MOVE + ":y:" + getX() + ":" + getY() + ":" + (getY() + speed));
+            setY(getY() + speed);
         }
 
         if (code == KeyCode.UP) {
-            client.sendMessage(MOVE + ":y:" + getX() + ":" + getY() + ":" + (getY() - STEP));
-            setY(getY() - STEP);
+            client.sendMessage(MOVE + ":y:" + getX() + ":" + getY() + ":" + (getY() - speed));
+            setY(getY() - speed);
         }
 
         if (code == KeyCode.RIGHT) {
-            client.sendMessage(MOVE + ":x:" + getX() + ":" + getY() + ":" + (getX() + STEP));
-            setX(getX() + STEP);
+            client.sendMessage(MOVE + ":x:" + getX() + ":" + getY() + ":" + (getX() + speed));
+            setX(getX() + speed);
         }
         if (code == KeyCode.LEFT) {
-            client.sendMessage(MOVE + ":x:" + getX() + ":" + getY() + ":" + (getX() - STEP));
-            setX(getX() - STEP);
-        }
-    }
-
-    private void setY(int i) {
-        y = i;
-        circle.setLayoutY(y);
-    }
-
-    private void setX(int i) {
-        x = i;
-        circle.setLayoutX(x);
-    }
-
-    private int getX() {
-        return (int) circle.getLayoutX();
-    }
-
-    private int getY() {
-        return (int) circle.getLayoutY();
-    }
-
-    public void receiveMessage(String message) {
-        String[] encode = message.split(":");
-        switch (encode[0]) {
-            case CREATE:
-                addCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]));
-                break;
-            case MOVE:
-                moveCircle(encode[1], Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]));
-                break;
-            case KILL:
-                killCircle(Integer.valueOf(encode[1]), Integer.valueOf(encode[2]), Integer.valueOf(encode[3]), Integer.valueOf(encode[4]), Integer.valueOf(encode[5]));
+            client.sendMessage(MOVE + ":x:" + getX() + ":" + getY() + ":" + (getX() - speed));
+            setX(getX() - speed);
         }
     }
 
@@ -163,6 +138,7 @@ public class Player {
 
         assert winner != null;
         winner.setRadius(winner.getRadius() + RADIUS_INCOME_KILLING);
+        setSpeed(getSpeed() - 2);
     }
 
     private void moveCircle(String where, Integer x, Integer y, Integer newValue) {
@@ -186,7 +162,39 @@ public class Player {
         return null;
     }
 
-//    move:405:y:346:351
+    private void setY(int i) {
+        y = i;
+        circle.setLayoutY(y);
+    }
+
+    private void setX(int i) {
+        x = i;
+        circle.setLayoutX(x);
+    }
+
+    private int getX() {
+        return (int) circle.getLayoutX();
+    }
+
+    private int getY() {
+        return (int) circle.getLayoutY();
+    }
+
+    private int getSpeed() {
+        return speed;
+    }
+
+    private void setSpeed(int speed) {
+        if (speed < 2) {
+            Player.speed = 2;
+        } else {
+            Player.speed = speed;
+        }
+    }
+
+    public Group getGroup() {
+        return group;
+    }
 
     @Override
     public String toString() {
