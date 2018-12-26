@@ -18,7 +18,7 @@ public class Server {
     public static Server server;
 
     public Server() throws IOException {
-        this.serverSocket = new ServerSocket(133);
+        this.serverSocket = new ServerSocket(1);
         int maxConnections = 20;
         clients = new ArrayList<>(maxConnections);
         players = new ArrayList<>(maxConnections);
@@ -87,7 +87,7 @@ public class Server {
 
         } else if (message[0].equals(Player.KILL)) {
             deleteCircle(Integer.valueOf(message[1]), Integer.valueOf(message[2]));
-            growCircle(Integer.valueOf(message[3]), Integer.valueOf(message[4]), Integer.valueOf(message[5]) + 5);
+            growCircle(Integer.valueOf(message[3]), Integer.valueOf(message[4]), Integer.valueOf(message[5]));
             sendMessage(string, sender);
         }
     }
@@ -95,7 +95,7 @@ public class Server {
     private void growCircle(Integer x, Integer y, Integer looserRad) {
         WrittenPlayer player = findCircle(x, y);
         assert player != null;
-        player.setRadius(player.getRadius() + 5);
+        player.setRadius(player.getRadius() + looserRad);
     }
 
     private void sendMessage(String string, Connection sender) {

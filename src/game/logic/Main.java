@@ -19,9 +19,9 @@ public class Main extends Application {
     private void startGame(Stage primaryStage) throws IOException {
 
         Random random = new Random();
-        int x = random.nextInt(450 + 1 + 50) - 50;
-        int y = random.nextInt(450 + 1 + 50) - 50;
-        int name = random.nextInt(450 + 1 + 50) - 50;
+        int x = random.nextInt(450 + 1 + 50) + 1;
+        int y = random.nextInt(450 + 1 + 50) + 1;
+        int name = random.nextInt(450 + 1 + 50) + 1;
 
         Player p = new Player(name, x, y);
 
@@ -30,7 +30,6 @@ public class Main extends Application {
         });
 
         primaryStage.setScene(new Scene(p.getGroup(), SIZE, SIZE));
-        primaryStage.setTitle("Hello World");
         primaryStage.show();
         primaryStage.getScene().getRoot().requestFocus();
     }

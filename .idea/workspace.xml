@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="game:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/game/game/entities/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/game/game/logic/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/game/game/logic/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/game/game/logic/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/game/game/logic/Server.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/logic/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/logic/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/logic/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/logic/Server.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -75,12 +84,12 @@
         <counts>
           <entry key="dummy" value="15" />
           <entry key="fxml" value="120" />
-          <entry key="java" value="4806" />
+          <entry key="java" value="5606" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="4789" />
+          <entry key="JAVA" value="5589" />
           <entry key="PLAIN_TEXT" value="15" />
           <entry key="RegExp" value="17" />
           <entry key="XML" value="120" />
@@ -88,12 +97,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="56" />
+          <entry key="java" value="61" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="54" />
+          <entry key="JAVA" value="59" />
           <entry key="Scratch" value="2" />
         </counts>
       </usages-collector>
@@ -104,45 +113,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/game/entities/Player.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="193" column="16" selection-start-line="193" selection-start-column="16" selection-end-line="193" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/game/logic/Client.java">
+        <entry file="file://$PROJECT_DIR$/src/game/logic/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="45" selection-start-line="45" selection-end-line="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/game/entities/WrittenPlayer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="553">
+              <caret line="92" column="5" lean-forward="true" selection-start-line="92" selection-start-column="5" selection-end-line="95" selection-end-column="48" />
               <folding>
-                <element signature="e#315#316#0" expanded="true" />
-                <element signature="e#397#398#0" expanded="true" />
-                <element signature="e#421#422#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#704#705#0" expanded="true" />
+                <element signature="e#760#761#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/game/logic/Server.java">
+        <entry file="file://$PROJECT_DIR$/src/game/logic/Connection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-488">
-              <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+            <state relative-caret-position="283">
+              <caret line="41" selection-start-line="41" selection-end-line="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/game/entities/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="129" column="70" lean-forward="true" selection-start-line="129" selection-start-column="70" selection-end-line="129" selection-end-column="70" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="method#action#0;class#Player#0" />
+                <element signature="e#4853#4942#0" />
+                <element signature="method#setSpeed#0;class#Player#0" />
               </folding>
             </state>
           </provider>
@@ -179,10 +181,11 @@
         <option value="$PROJECT_DIR$/src/game/Main.java" />
         <option value="$PROJECT_DIR$/src/sample.fxml" />
         <option value="$PROJECT_DIR$/src/game/logic/ServerSingleton.java" />
-        <option value="$PROJECT_DIR$/src/game/logic/Main.java" />
         <option value="$PROJECT_DIR$/src/game/logic/Connection.java" />
         <option value="$PROJECT_DIR$/src/game/logic/Client.java" />
         <option value="$PROJECT_DIR$/src/game/entities/WrittenPlayer.java" />
+        <option value="$PROJECT_DIR$/src/game/logic/Scheduler.java" />
+        <option value="$PROJECT_DIR$/src/game/logic/Main.java" />
         <option value="$PROJECT_DIR$/src/game/logic/Server.java" />
         <option value="$PROJECT_DIR$/src/game/entities/Player.java" />
       </list>
@@ -214,6 +217,24 @@
             <path>
               <item name="game" type="b2602c69:ProjectViewProjectNode" />
               <item name="game" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
+              <item name="game_jar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="game" type="b2602c69:ProjectViewProjectNode" />
@@ -251,8 +272,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -266,6 +287,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dynamic.classpath" value="false" />
     <property name="extract.method.default.visibility" value="private" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15234375" />
+    <property name="project.structure.side.proportion" value="0.2891705" />
     <property name="recentsLimit" value="5" />
   </component>
   <component name="RecentsManager">
@@ -409,7 +433,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39447000" />
+    <option name="totallyTimeSpent" value="48840000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -424,15 +448,15 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.18669528" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.18884121" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.20481928" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36024097" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.2746988" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26746988" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.48192772" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3299363" />
@@ -442,7 +466,7 @@
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" weight="0.32891566" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.32891566" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.22048193" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="15" weight="0.32891566" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -517,6 +541,18 @@
           <properties />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/entities/Player.java</url>
+          <line>122</line>
+          <properties />
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/game/entities/Player.java</url>
+          <line>184</line>
+          <properties />
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -557,12 +593,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/logic/ServerSingleton.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/javafx.graphics/javafx/scene/Group.java">
@@ -629,30 +665,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/logic/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="50" lean-forward="true" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/logic/Connection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/javafx.graphics/javafx/scene/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1820">
-          <caret line="6808" selection-start-line="6808" selection-end-line="6808" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/javafx.base/javafx/beans/property/DoublePropertyBase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
@@ -679,13 +691,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/logic/Scheduler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+          <folding>
+            <element signature="e#213#214#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/java.base/java/util/List.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="286" column="12" selection-start-line="286" selection-start-column="12" selection-end-line="286" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/logic/Connection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/javafx.graphics/javafx/scene/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="2729" selection-start-line="2729" selection-end-line="2729" />
+          <folding>
+            <element signature="e#109302#109303#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/logic/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="22" column="12" lean-forward="true" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/lib/src.zip!/javafx.graphics/javafx/scene/shape/Circle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="253" column="22" selection-start-line="253" selection-start-column="22" selection-end-line="253" selection-end-column="22" />
+        <state relative-caret-position="167">
+          <caret line="255" selection-start-line="255" selection-end-line="255" />
           <folding>
             <element signature="e#6705#6706#0" expanded="true" />
-            <element signature="e#6738#6739#0" expanded="true" />
             <element signature="e#6777#6778#0" expanded="true" />
             <element signature="e#6812#6813#0" expanded="true" />
           </folding>
@@ -694,20 +749,104 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/logic/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-488">
-          <caret line="20" column="48" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+        <state relative-caret-position="553">
+          <caret line="92" column="5" lean-forward="true" selection-start-line="92" selection-start-column="5" selection-end-line="95" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#704#705#0" expanded="true" />
+            <element signature="e#760#761#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/entities/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="193" column="16" selection-start-line="193" selection-start-column="16" selection-end-line="193" selection-end-column="16" />
+        <state relative-caret-position="247">
+          <caret line="129" column="70" lean-forward="true" selection-start-line="129" selection-start-column="70" selection-end-line="129" selection-end-column="70" />
+          <folding>
+            <element signature="method#action#0;class#Player#0" />
+            <element signature="e#4853#4942#0" />
+            <element signature="method#setSpeed#0;class#Player#0" />
+          </folding>
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>game:jar</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2891705" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>9</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2891705" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>game</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

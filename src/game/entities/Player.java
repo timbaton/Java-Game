@@ -3,12 +3,17 @@ package game.entities;
 import game.logic.Client;
 import javafx.application.Platform;
 import javafx.scene.Group;
+import javafx.scene.effect.Lighting;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Player {
     public final static String CREATE = "create";
@@ -22,8 +27,8 @@ public class Player {
     private int y;
     private int radius;
     private int name;
-    private Circle circle;
-    private List<Circle> circles;
+    private StackPane stack;
+    private List<StackPane> stacks;
     private Client client;
 
     private Group group = new Group();
@@ -32,12 +37,15 @@ public class Player {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.radius = 50;
-        circles = new ArrayList<>();
-        circle = addCircle(name, x, y, radius);
 
-        circle.setOnKeyPressed(value -> action(value.getCode()));
-        client = new Client("localhost", 133, this);
+        Random rand = new Random();
+        this.radius = rand.nextInt(12) + 8;
+
+        stacks = new ArrayList<>();
+        stack = addCircle(name, x, y, radius);
+
+        stack.setOnKeyPressed(value -> action(value.getCode()));
+        client = new Client("10.17.34.122", 1, this);
         client.sendMessage(CREATE + ":" + this);
     }
 
@@ -55,50 +63,84 @@ public class Player {
         }
     }
 
-    private Circle addCircle(int name, int x, int y, int radius) {
-        Circle circle = new Circle();
-        circle.setRadius(radius);
-        circle.setLayoutX(x);
-        circle.setLayoutY(y);
+    private StackPane addCircle(int name, int x, int y, int radius) {
+        Circle circle = new Circle(radius,  Color.rgb(156,216,255));
+        circle.setEffect(new Lighting());
 
-        circle.boundsInParentProperty().addListener((a, b, d) -> {
-            if (circle != this.circle && checkIntersect(circle, this.circle)) {
-                handleKilling(circle, this.circle);
+        //create a text inside a circle
+        final Text text = new Text (String.valueOf(radius));
+        text.setStroke(Color.BLACK);
+
+        final StackPane stack = new StackPane();
+        stack.getChildren().addAll(circle, text);
+        stack.setLayoutX(x);
+        stack.setLayoutY(y);
+
+//        circle.setLayoutX(x);
+//        circle.setLayoutY(y);
+
+        stack.boundsInParentProperty().addListener((a, b, d) -> {
+            if (stack != this.stack && checkIntersect(stack, this.stack)) {
+                handleKilling(stack, this.stack);
             }
         });
-        circles.add(circle);
+        stacks.add(stack);
 
         Platform.runLater(() -> {
-                    group.getChildren().add(circle);
+                    group.getChildren().add(stack);
                 }
         );
-        return circle;
+        return stack;
+
+
+
+        //create a layout for circle with text inside
+
     }
 
-    private void handleKilling(Circle circle, Circle currentCircle) {
-        Circle winner = currentCircle;
-        Circle looser = circle;
-        if (circle.getRadius() > currentCircle.getRadius()) {
-            winner = circle;
-            looser = currentCircle;
+    private void handleKilling(StackPane stack, StackPane curStack) {
+
+        Circle stackCircle = (Circle) stack.getChildren().get(0);
+        Circle curStackCircle = (Circle) curStack.getChildren().get(0);
+
+        if (stackCircle.getRadius() != curStackCircle.getRadius()) {
+            StackPane winner = stack;
+            StackPane looser = curStack;
+            Circle winnerCircle = (Circle) winner.getChildren().get(0);
+            Circle looserCircle = (Circle) looser.getChildren().get(0);
+
+            if (stackCircle.getRadius() < curStackCircle.getRadius()) {
+                winner = curStack;
+                looser = stack;
+                winnerCircle = (Circle) winner.getChildren().get(0);
+                looserCircle = (Circle) looser.getChildren().get(0);
+            }
+
+//        if (stackCircle.getRadius() != curStackCircle.getRadius()) {
+            client.sendMessage(KILL + ":" + (int) looser.getLayoutX() + ":" + (int) looser.getLayoutY() + ":"
+                    + (int) winner.getLayoutX() + ":" + (int) winner.getLayoutY() + ":" + (int) looserCircle.getRadius());
+
+            killCircle((int) looser.getLayoutX(), (int) looser.getLayoutY(),
+                    (int) winner.getLayoutX(), (int) winner.getLayoutY(), (int) looserCircle.getRadius());
+//        }
         }
 
-//        if (circle.getRadius() != currentCircle.getRadius()) {
-        client.sendMessage(KILL + ":" + (int) looser.getLayoutX() + ":" + (int) looser.getLayoutY() + ":"
-                + (int) winner.getLayoutX() + ":" + (int) winner.getLayoutY() + ":" + (int) winner.getRadius());
-
-        killCircle((int) looser.getLayoutX(), (int) looser.getLayoutY(),
-                (int) winner.getLayoutX(), (int) winner.getLayoutY(), (int) looser.getRadius());
-//        }
     }
 
-    private boolean checkIntersect(Circle oneOfAllPlayers, Circle circle) {
-        double allX = oneOfAllPlayers.getLayoutX();
-        double curX = circle.getLayoutX();
+//    Circle oneCircle = (Circle) oneOfPlayers.getChildren().get(0);
+//    Circle secondCircle = (Circle) curCircle.getChildren().get(0);
+    
+    private boolean checkIntersect(StackPane oneOfPlayers, StackPane curCircle) {
+        double allX = curCircle.getLayoutX();
+        double curX = oneOfPlayers.getLayoutX();
         double squareOne = Math.pow(allX - curX, 2);
-        double squareTwo = Math.pow(oneOfAllPlayers.getLayoutY() - circle.getLayoutY(), 2);
+        double squareTwo = Math.pow(oneOfPlayers.getLayoutY() - curCircle.getLayoutY(), 2);
         double sqrt = Math.sqrt(squareOne + squareTwo);
-        double distance = circle.getRadius() + oneOfAllPlayers.getRadius();
+
+        Circle circle = (Circle) oneOfPlayers.getChildren().get(0);
+        Circle currentCircle = (Circle) curCircle.getChildren().get(0);
+
+        double distance = circle.getRadius() + currentCircle.getRadius();
         return sqrt < distance;
     }
 
@@ -124,12 +166,13 @@ public class Player {
     }
 
     private void killCircle(int killedX, int killedY, int winnerX, int winnerY, int radius) {
-        Circle killed = findCircle(killedX, killedY);
-        Circle winner = findCircle(winnerX, winnerY);
+        StackPane killed = findCircle(killedX, killedY);
+        StackPane winner = findCircle(winnerX, winnerY);
+
         if (killed != null) {
             killed.setLayoutX(-1999.0);
             killed.setLayoutY(-1999.0);
-            circles.remove(killed);
+            stacks.remove(killed);
             Platform.runLater(() -> {
                         group.getChildren().remove(killed);
                     }
@@ -137,12 +180,15 @@ public class Player {
         }
 
         assert winner != null;
-        winner.setRadius(winner.getRadius() + RADIUS_INCOME_KILLING);
+        Circle winnerCircle = (Circle) winner.getChildren().get(0);
+        Text winnerText  = (Text) winner.getChildren().get(1);
+        winnerCircle.setRadius(winnerCircle.getRadius() + radius);
+        winnerText.setText(String.valueOf(winnerCircle.getRadius()));
         setSpeed(getSpeed() - 2);
     }
 
     private void moveCircle(String where, Integer x, Integer y, Integer newValue) {
-        Circle circle = findCircle(x, y);
+        StackPane circle = findCircle(x, y);
 
         if (circle != null) {
             if (where.equals("y")) {
@@ -153,10 +199,10 @@ public class Player {
         }
     }
 
-    private Circle findCircle(Integer x, Integer y) {
-        for (Circle circle : circles) {
-            if (circle.getLayoutY() == y && circle.getLayoutX() == x) {
-                return circle;
+    private StackPane findCircle(Integer x, Integer y) {
+        for (StackPane stackPane : stacks) {
+            if (stackPane.getLayoutY() == y && stackPane.getLayoutX() == x) {
+                return stackPane;
             }
         }
         return null;
@@ -164,20 +210,20 @@ public class Player {
 
     private void setY(int i) {
         y = i;
-        circle.setLayoutY(y);
+        stack.setLayoutY(y);
     }
 
     private void setX(int i) {
         x = i;
-        circle.setLayoutX(x);
+        stack.setLayoutX(x);
     }
 
     private int getX() {
-        return (int) circle.getLayoutX();
+        return (int) stack.getLayoutX();
     }
 
     private int getY() {
-        return (int) circle.getLayoutY();
+        return (int) stack.getLayoutY();
     }
 
     private int getSpeed() {
